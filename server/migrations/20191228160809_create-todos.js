@@ -5,6 +5,7 @@ exports.up = function(knex) {
         table.string('title');
         table.integer('order');
         table.boolean('completed').defaultTo(false);
+        table.integer('userId');
     });
 };
 
