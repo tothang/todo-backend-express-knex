@@ -67,3 +67,7 @@ Bonus features include a simple frontend boostrapped with create-react-app and t
     > Note: The proxied connection will only work locally.
     > You'll need the server to serve the frontend build if
     > you want to host the entire project somewhere.
+  >
+9. Database structure simple  [diagram database structure](https://dbdiagram.io/d/Script-Todo-App-67acc276263d6cf9a0edbe24)
+
+  
