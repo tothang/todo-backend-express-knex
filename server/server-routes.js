@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const todos = require('./database/todo-queries.js');
 const user = require('./database/user-queries.js');
+const { generateToken } = require("./utils");
 
 function createToDo(req, data) {
   const protocol = req.protocol,
@@ -60,8 +61,9 @@ async function login(req, res) {
     if ( !email || !password) {
         return res.status(400).send('Missing required fields');
     }
-    await user.create(name, email, password);
-    return res.send({success: true, name, email});
+    const login = await user.getAuthUser(email, password);
+    const token = generateToken(login);
+    return res.send({success: true, token});
 }
 
 //
@@ -86,7 +88,8 @@ const toExport = {
     patchTodo: { method: patchTodo, errorMessage: "Could not patch todo" },
     deleteAllTodos: { method: deleteAllTodos, errorMessage: "Could not delete all todos" },
     deleteTodo: { method: deleteTodo, errorMessage: "Could not delete todo" },
-    signup: { method: signUp, errorMessage: "Sign up failed" }
+    signup: { method: signUp, errorMessage: "Sign up failed" },
+    login: { method: login, errorMessage: "Login failed" }
 }
 
 for (let route in toExport) {

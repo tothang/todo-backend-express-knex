@@ -1,5 +1,21 @@
 const knex = require("./connection.js");
 const bcrypt = require('bcrypt');
+
+async function getAuthUser(email, password) {
+    const results = await knex('user').where({ email }).first();
+    if (!results) {
+        return false;
+    }
+
+    const isMatch = await bcrypt.compare(password, results.password);
+
+    if (!isMatch) {
+        return false;
+    }
+
+    return results;
+}
+
 async function get(id) {
     const results = await knex('user').where({ id });
     return results[0];
@@ -31,4 +47,5 @@ module.exports = {
     create,
     update,
     delete: del,
+    getAuthUser
 }

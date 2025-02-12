@@ -11,3 +11,4 @@ app.delete('/', routes.deleteAllTodos);
 app.delete('/:id', routes.deleteTodo);
 
 app.post('/user/sign-up',  routes.signup);
+app.post('/user/login',  routes.login);
