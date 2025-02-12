@@ -1,9 +1,10 @@
 const _ = require('lodash');
 const todos = require('./database/todo-queries.js');
+const user = require('./database/user-queries.js');
 
 function createToDo(req, data) {
-  const protocol = req.protocol, 
-    host = req.get('host'), 
+  const protocol = req.protocol,
+    host = req.get('host'),
     id = data.id;
 
   return {
@@ -44,6 +45,27 @@ async function deleteTodo(req, res) {
   return res.send(createToDo(req, deleted));
 }
 
+//function for user
+async function signUp(req, res) {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+        return res.status(400).send('Missing required fields');
+    }
+    await user.create(name, email, password);
+    return res.send({success: true, name, email});
+}
+
+async function login(req, res) {
+    const { email, password } = req.body;
+    if ( !email || !password) {
+        return res.status(400).send('Missing required fields');
+    }
+    await user.create(name, email, password);
+    return res.send({success: true, name, email});
+}
+
+//
+
 function addErrorReporting(func, message) {
     return async function(req, res) {
         try {
@@ -53,7 +75,7 @@ function addErrorReporting(func, message) {
 
             // Not always 500, but for simplicity's sake.
             res.status(500).send(`Opps! ${message}.`);
-        } 
+        }
     }
 }
 
@@ -63,7 +85,8 @@ const toExport = {
     postTodo: { method: postTodo, errorMessage: "Could not post todo" },
     patchTodo: { method: patchTodo, errorMessage: "Could not patch todo" },
     deleteAllTodos: { method: deleteAllTodos, errorMessage: "Could not delete all todos" },
-    deleteTodo: { method: deleteTodo, errorMessage: "Could not delete todo" }
+    deleteTodo: { method: deleteTodo, errorMessage: "Could not delete todo" },
+    signup: { method: signUp, errorMessage: "Sign up failed" }
 }
 
 for (let route in toExport) {
