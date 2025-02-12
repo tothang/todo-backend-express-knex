@@ -3,8 +3,10 @@
 # dependencies
 /localhost-ssl
 node_modules
+_docker_volumes
+.idea/
 
-./client/node_modules 
+./client/node_modules
 ./client/.pnp
 ./client/.pnp.js
 
@@ -13,7 +15,6 @@ node_modules
 
 # production
 ./client/build
-
 # misc
 ./client/.DS_Store
 ./client/.env.local
